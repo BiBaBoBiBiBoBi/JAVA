@@ -1,0 +1,114 @@
+
+import java.io.File;
+
+
+
+public class Recursion { //ri ke sion ---递归
+	
+	//求n的阶乘
+	public static int factorial(int n){
+		if(n==1)
+			return 1;
+		return n*factorial(n-1);
+	}
+	
+	//查询斐波那契数列第n个数字
+	public static int fab(int n){
+		if(n==1||n==2)
+			return 1;
+		return fab(n-1)+fab(n-2);
+		
+	}
+	
+	//二分查找
+	public static int halfSearch(int num, int[] arr, int l, int r) {
+		if (l <= r) {
+			int half = (l + r) / 2;
+			if (num == arr[half])
+				return half;
+			if (num < arr[half])
+				return halfSearch(num, arr, l, half - 1);
+			return halfSearch(num, arr, half + 1, r);
+		}
+		return -1;
+	}
+	
+	//实现参数指定目录中所有内容的打印，要求子目录中的内容也要打印。
+	public static void printDir(File f){
+		if (!f.exists()) {
+			System.out.println("该文件不存在！");
+		} else {
+			File[] farr = f.listFiles();//将该文件夹下所有文件写入一个文件数组
+			for (File p : farr) {
+				if (p.isFile())
+					System.out.println(p.getName());
+				// 若对象是一个目录，还要打印其下的内容`
+				if (p.isDirectory()) {
+					System.out.println("[" + p.getName() + "]");
+					printDir(p);
+				}
+			}
+		}
+		
+	}
+	
+	//将指定文件夹下所有内容删除
+	public static void delDir(File f){
+		if (!f.exists()) {
+			System.out.println("该文件不存在！");
+		} else {
+			File[] farr = f.listFiles();//将该文件夹下所有文件写入一个文件数组
+			for (File p : farr) {
+				if (p.isFile())
+//					System.out.println(p.getName());
+					p.delete();
+				// 若对象是一个目录，还要打印其下的内容
+				if (p.isDirectory()) {
+//					System.out.println("[" + p.getName() + "]");
+					delDir(p);
+					p.delete();
+				}
+			}
+		}
+		
+	}
+	
+	//快速排序
+	public static void quickSort(int[] arr, int left, int right) {
+		if (right < left)
+			return;
+		int base = arr[left];// 以左边元素为基准数
+		//i,j分别作为左右元素指针,排序时可以移动
+		int i = left;
+		int j = right;
+		while (i != j) {
+			// 先动右边指针
+			while (arr[j] >= base && i < j) {//注意不是大于而是  大于等于!!
+				j--;
+			}//左边指针
+			while (arr[i] < base && i < j) {//其实这两个判断条件只要有一个是加'='就可以了
+				i++;
+			}
+			//交换元素
+			if(i<j){
+				int t=arr[i];
+				arr[i]=arr[j];
+				arr[j]=t;
+			}
+		}
+		//交换完一轮之后,基准数归位
+		arr[left]=arr[i];
+		arr[i]=base;
+		quickSort(arr,left,i-1);
+		quickSort(arr,i+1,right);
+	}
+
+	public static void main(String[] args) {
+		int n=5;
+		System.out.println(n+"!="+factorial(n));
+
+		System.out.println("fab("+n+") = "+fab(n));
+		
+	}
+
+}
