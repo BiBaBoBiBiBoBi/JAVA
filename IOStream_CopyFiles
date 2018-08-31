@@ -1,0 +1,53 @@
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+
+public class TestCopy {
+
+	public static void main(String[] args) {
+		try {
+			File aimF = new File("e:/JDK_API_1_6_zh_CN.CHM");
+			FileInputStream fis =new FileInputStream(aimF);
+			FileOutputStream fos=new FileOutputStream("d:/hhhh.CHM");
+			
+			//     1 
+			
+			/*int len=fis.available();
+			System.out.println("file size="+len);
+			byte[] brr=new byte[len];
+			System.out.println("读入中..");
+			fis.read(brr);//read in
+			System.out.println("写出中...");
+			fos.write(brr);//write out
+			System.out.println("完毕...");*/
+			
+			//    2
+			
+			/*int res=0;// write and read with every byte
+			System.out.println("读写中...");
+			while((res=fis.read())!=-1){
+				fos.write(res);
+			}
+			System.out.println("完毕...");*/
+			
+			//  3
+			
+			byte[] brr0=new byte[1024*8];//make a buffer
+			int res0=0;
+			System.out.println("读写中...");
+			while((res0=fis.read(brr0))!=-1){
+				fos.write(brr0, 0, res0);
+			}
+			System.out.println("完毕...");
+			
+			fos.close();
+			fis.close();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+}
