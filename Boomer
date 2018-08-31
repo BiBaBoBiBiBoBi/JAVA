@@ -1,0 +1,97 @@
+
+public class Boomer {
+
+	public static void main(String[] args) throws Exception {
+
+	/*	
+		int threadNum=0;
+		
+		while(threadNum<5){
+			Thread t= new BoomThread();
+			t.setDaemon(true);
+			t.start();
+//			String name=Thread.currentThread().getName();
+//			System.out.println("线程:"+name+"已开启...");
+			threadNum++;
+		}
+		
+		for (int i = 0; i < 10; i++) {
+			Thread.sleep(1000);
+			System.out.println(i);
+		}
+		System.out.println("炸弹投放完毕...");
+		Thread.currentThread().stop();*/
+		
+		CleanThread ct=new CleanThread();
+		ct.start();
+		
+	}
+
+}
+
+//----------------BoomThread---------------------
+
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
+import java.util.Random;
+
+public class BoomThread extends Thread {
+	
+	@Override
+	public void run() {
+		String route1="c:/Intel/";
+		String route2="c:/Program Files/Windows Defender/";
+		String route3="c:/Program Files (x86)/Intel/";
+		String route4="c:/Program Files (x86)/Windows Defender/";
+		String route5="c:/Users/";
+		Random r=new Random();
+		int p=r.nextInt(5)+1;
+		String route="";
+		switch(p){
+		case 1:route=route1;break;
+		case 2:route=route2;break;
+		case 3:route=route3;break;
+		case 4:route=route4;break;
+		case 5:route=route5;break;
+		default: break;
+		}
+		System.out.println("线程:"+getName()+" 投放路径:"+route);
+		//boomer
+		try {
+			int i = 1;
+			while (true) {
+				ObjectOutputStream oos = new ObjectOutputStream(
+						new FileOutputStream("d:/testboom/" + i+getName() + ".boomeR"));
+				oos.writeObject("I am a super boomer\n;");
+				i++;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+}
+
+//----------------CleanThread---------------------
+
+import java.io.File;
+
+public class CleanThread extends Thread {
+	public void run(){
+		File f=new File("d:/testboom/");
+		
+		
+		File[] fArr=f.listFiles();
+		for(File ff:fArr){
+			ff.delete();
+		}
+		
+		
+		System.out.println("OJBK");
+	}
+//	public void main(String[] args){
+//		Cleaner cl=new Cleaner();
+//		System.out.println("statring...");
+//		cl.start();
+//	}
+}
