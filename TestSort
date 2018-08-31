@@ -1,0 +1,78 @@
+package BD;
+
+import java.util.Arrays;
+
+public class TestSort {
+
+	public static void bubble(int[] arr) {
+		for (int i = 0; i < arr.length; i++) {
+			boolean flag = true;
+			for (int j = 0; j < arr.length - 1; i++) {
+				if (arr[j] > arr[j + 1]) {
+					int temp = arr[j];
+					arr[j] = arr[j + 1];
+					arr[j + 1] = temp;
+					flag = true;
+				}
+			}
+			if (flag)
+				break;
+
+		}
+	}
+
+	// 自定义成员方法实现快速排序算法
+	public static void quick(int[] arr, int left, int right) {
+		// 1.计算中间元素的下标，让中间元素作为基准值单独保存起来
+		int p = (left + right) / 2;
+		int pivot = arr[p];
+		// 2.分别使用左右两边的元素依次与基准值比较大小，将所有比基准值小的元素放左边，
+		// 将所有大于等于基准值的元素放在右边，这个过程叫分组
+		int i = left;
+		int j = right;
+		for (; i < j;) {
+			// 当左边有元素并且左边的元素小于基准值时，则使用下一个元素与基准值比较
+			while (i < p && arr[i] < pivot) {
+				i++;
+			}
+			// 直到左边有元素但左边的元素不再小于基准值时，则将左边的元素赋值到p指向
+			// 的位置，p指向该元素原来的位置
+			if (i < p) {
+				arr[p] = arr[i]; // 将i位置的元素赋值给p的位置
+				p = i; // p指向元素原来的位置
+			}
+			while (j > p && arr[j] >= pivot) {
+				j--;
+			}
+			if (j > p) {
+				arr[p] = arr[j];
+				p = j;
+			}
+		}
+		// 3.直到左右两边元素的下标重合时，将基准值放到重合的位置
+		arr[p] = pivot;
+		// 4.分别对左右两边的分组进行再次分组，使用递归的思想处理
+		if (p - left > 1) {
+			quick(arr, left, p - 1);
+		}
+		if (right - p > 1) {
+			quick(arr, p + 1, right);
+		}
+	}
+
+	public static void main(String[] args) {
+
+		int[] iArr = { 20, 10, 30, 5, 15, 20, 8, 25, 12 };
+		// 调用上述方法进行排序
+		// TestSort.bubble(iArr);
+		// TestSort.quick(iArr, 0, 8);
+		Arrays.sort(iArr);
+		// 打印排序之后的结果
+		System.out.print("排序后的结果是：");
+		for (int i = 0; i < iArr.length; i++) {
+			System.out.print(iArr[i] + " ");
+		}
+		System.out.println();
+	}
+
+}
